@@ -96,17 +96,50 @@ class Player {
     this.$('.header h1').innerText = songObj.title
     this.$('.header p').innerText = songObj.author + '-' + songObj.albumn
     this.audio.src = songObj.url
-    this.audio.onloadedmetadata = () => this.$('.time-end').innerText = this.formateTime(this.audio.duration)
+    // this.audio.onloadedmetadata = () => this.$('.time-end').innerText = this.formateTime(this.audio.duration)
     
     this.loadLyric()
   }
 
+  // 加载歌词
   loadLyric() {
     fetch(this.songList[this.currentIndex].lyric)
      .then(res => res.json())
      .then(data => {
       console.log(data.lrc.lyric);
+      this.setLyrics(data.lrc.lyric)
      })
+  }
+
+  // 歌词挂载到html上
+  setLyrics(lyrics) {
+    this.lyricIndex = 0
+    let fragment = document.createDocumentFragment()
+    let lyricsArr = []
+    this.lyricsArr = lyricsArr
+    lyrics.split(/\n/)
+      .filter(str => str.match(/\[.+?\]/))
+      .forEach(line => {
+        let str = line.replace(/\[.+?\]/g, '')
+        line.match(/\[.+?\]/g).forEach(t => {
+          t = t.replace(/[\[\]]/g, '')
+          let milliseconds = parseInt(t.slice(0,2))*60*1000 + parseInt(t.slice(3,5))*1000 + parseInt(t.slice(6))
+          lyricsArr.push([milliseconds, str])
+        })
+      })
+
+      lyricsArr.filter(line => line[1].trim() !== '')
+       .sort((v1, v2) => v1[0] > v2[0] ? 1 : -1)
+       .forEach(line => {
+        let node = document.createElement('p')
+        node.setAttribute('data-time', line[0])
+        node.innerText = line[1]
+        fragment.appendChild(node)
+       })
+
+       this.$('.panel-lyrics .container').innerHTML = ''
+       this.$('.panel-lyrics .container').appendChild(fragment)
+
   }
 
   playSong() {
