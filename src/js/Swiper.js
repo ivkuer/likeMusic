@@ -12,7 +12,6 @@ class Swiper {
     }
 
     root.ontouchmove  = function(e) {
-      e.preventDefault()
       if(clock) clearInterval(clock)
       clock = setTimeout(()=>{
         newX = e.changedTouches[0].pageX

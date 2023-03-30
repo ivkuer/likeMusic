@@ -92,9 +92,21 @@ class Player {
 
   // audio加载音乐
   loadSong() {
-    console.log(this.currentIndex);
     let songObj = this.songList[this.currentIndex]
+    this.$('.header h1').innerText = songObj.title
+    this.$('.header p').innerText = songObj.author + '-' + songObj.albumn
     this.audio.src = songObj.url
+    this.audio.onloadedmetadata = () => this.$('.time-end').innerText = this.formateTime(this.audio.duration)
+    
+    this.loadLyric()
+  }
+
+  loadLyric() {
+    fetch(this.songList[this.currentIndex].lyric)
+     .then(res => res.json())
+     .then(data => {
+      console.log(data.lrc.lyric);
+     })
   }
 
   playSong() {
@@ -103,4 +115,5 @@ class Player {
 
   
 }
+
 new Player('#player')
