@@ -1,5 +1,5 @@
 import './icon'
-console.log('hi');
+import Swiper from './Swiper'
 
 
 class Player {
@@ -88,7 +88,6 @@ class Player {
   playSong() {
     this.audio.oncanplaythrough = () => this.audio.play()
   }
-
 }
-
+new Swiper('#player')
 new Player('#player')
