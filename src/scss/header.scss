@@ -1,0 +1,37 @@
+
+.header {
+  height: 110px;
+  text-align: center;
+
+  h1 {
+    padding-top: 1rem;
+    color: #000;
+    font-size: 20px
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .balls {
+    display: flex;
+    height: 10px;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      margin: 0 4px;
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #ccc;
+      border-radius: 50%;
+
+      &.current {
+        width: 0.9rem;
+        height: 0.9rem;
+        background-color: #f22;
+      }
+    }
+
+  }
+}
