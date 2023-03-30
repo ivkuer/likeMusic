@@ -76,6 +76,18 @@ class Player {
       self.playSong()
     }
 
+    let swiper = new Swiper(this.$('.panels'))
+    swiper.on('swipLeft', function() {
+      console.log(this);
+      this.classList.remove('panel-1')
+      this.classList.add('panel-2')
+    })
+    swiper.on('swipRight', function() {
+      console.log(this);
+      this.classList.remove('panel-2')
+      this.classList.add('panel-1')
+    })
+
   }
 
   // audio加载音乐
@@ -88,6 +100,7 @@ class Player {
   playSong() {
     this.audio.oncanplaythrough = () => this.audio.play()
   }
+
+  
 }
-new Swiper('#player')
 new Player('#player')
