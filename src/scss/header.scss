@@ -1,11 +1,11 @@
-
+@import './vars.scss';
 .header {
   height: 110px;
   text-align: center;
 
   h1 {
     padding-top: 1rem;
-    color: #000;
+    color: $color1;
     font-size: 20px
   }
 
@@ -23,15 +23,14 @@
       margin: 0 4px;
       width: 0.5rem;
       height: 0.5rem;
-      background-color: #ccc;
+      background-color: $color2-dark;
       border-radius: 50%;
 
       &.current {
         width: 0.9rem;
         height: 0.9rem;
-        background-color: #f22;
+        background-color: $color2;
       }
     }
-
   }
 }

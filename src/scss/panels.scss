@@ -1,0 +1,71 @@
+.panels {
+     height: calc(100vh - 290px);
+     width: 200vw;
+     display: flex;
+     transition: transform 0.3s;
+
+     &.panel-1 {
+      transform: translateX(0vw);
+     }
+
+     &.panel-2 {
+      transform: translateX(-100vw);
+     }
+
+    .panel-effect {
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .effect {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        position: relative;
+        > div {
+          position: absolute;
+        }
+
+        .effect-1 {
+          width: 70vw;
+          height: 70vw;
+          background: url('../svg/effect-no-move.svg') 0 0 no-repeat;
+          animation: rotate 20s linear infinite;
+        }
+        .effect-2 {
+          width: 60vw;
+          height: 60vw;
+          background: url('../svg/effect-move1.svg') 0 0 no-repeat;
+          animation: rotate 10s linear infinite reverse;
+        }
+        .effect-3 {
+          width: 24vw;
+          height: 24vw;
+          background: url('../svg/effect-move2.svg') 0 0 no-repeat;
+          animation: rotate 10s linear infinite;
+        }
+      }
+
+    .lyrics {
+      text-align: center;
+      p {
+        color: $lyric-color-dark;
+        font-size: 16px;
+        &.current {
+          font-size: 18px;
+          color: $lyric-color;
+        }
+      }
+      
+    }
+  }
+
+  .panel-lyrics {
+    width: 100vw;
+    p {
+      color: #fff;
+    }
+  }
+}
