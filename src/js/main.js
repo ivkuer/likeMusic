@@ -76,6 +76,13 @@ class Player {
       self.playSong()
     }
 
+    // 当currentTime更新时会触发timeupdate事件
+    this.audio.ontimeupdate = function() {
+      console.log(parseInt(self.audio.currentTime*1000))
+      self.locateLyric()
+      // self.setProgerssBar()
+    }
+
     let swiper = new Swiper(this.$('.panels'))
     swiper.on('swipLeft', function() {
       console.log(this);
@@ -109,6 +116,23 @@ class Player {
       console.log(data.lrc.lyric);
       this.setLyrics(data.lrc.lyric)
      })
+  }
+
+
+  locateLyric() {
+    if (this.lyricIndex === this.lyricsArr.length - 1) return
+    let currentTime = this.audio.currentTime * 1000
+    let nextLineTime = this.lyricsArr[this.lyricIndex + 1][0]
+
+    if (currentTime > nextLineTime && this.lyricIndex < this.lyricsArr.length - 1) {
+      this.lyricIndex++
+      let node = this.$(`[data-time='${this.lyricsArr[this.lyricIndex][0]}']`)
+      // if (node) this.setLyricToCenter(node)
+      // 歌词挂到主界面
+      this.$$('.panels .panel-effect .lyrics p')[0].innerText = this.lyricsArr[this.lyricIndex][1]
+      this.$$('.panels .panel-effect .lyrics p')[1].innerText = this.lyricsArr[this.lyricIndex+1] ? this.lyricsArr[this.lyricIndex+1][1] : ''
+    }
+
   }
 
   // 歌词挂载到html上
