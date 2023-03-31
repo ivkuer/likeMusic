@@ -127,12 +127,19 @@ class Player {
     if (currentTime > nextLineTime && this.lyricIndex < this.lyricsArr.length - 1) {
       this.lyricIndex++
       let node = this.$(`[data-time='${this.lyricsArr[this.lyricIndex][0]}']`)
-      // if (node) this.setLyricToCenter(node)
+      if (node) this.setLyricToCenter(node)
       // 歌词挂到主界面
       this.$$('.panels .panel-effect .lyrics p')[0].innerText = this.lyricsArr[this.lyricIndex][1]
       this.$$('.panels .panel-effect .lyrics p')[1].innerText = this.lyricsArr[this.lyricIndex+1] ? this.lyricsArr[this.lyricIndex+1][1] : ''
     }
+  }
 
+  setLyricToCenter(node) {
+    let translateY = node.offsetTop - this.$('.panel-lyrics').offsetHeight / 2
+    translateY = translateY > 0 ? translateY : 0
+    this.$('.panel-lyrics .container').style.transform = `translateY(-${translateY}px)`
+    this.$$('.panel-lyrics p').forEach(node => node.classList.remove('current'))
+    node.classList.add('current')
   }
 
   // 歌词挂载到html上
