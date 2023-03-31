@@ -43,19 +43,6 @@ class Player {
         this.classList.add('pause')
         this.querySelector('use').setAttribute('xlink:href', '#icon-play')
       }
-
-      // if (this.classList.contains('playing')) {
-      //   console.log(self.audio.paused);
-      //   self.audio.pause()
-      //   this.classList.remove('playing')
-      //   this.classList.add('pause')
-      //   this.querySelector('use').setAttribute('xlink:href', '#icon-play')
-      // } else if (this.classList.contains('pause')) {
-      //   self.audio.play()
-      //   this.classList.remove('pause')
-      //   this.classList.add('playing')
-      //   this.querySelector('use').setAttribute('xlink:href', '#icon-pause')
-      // }
     }
 
     // 上一首
@@ -65,6 +52,10 @@ class Player {
       } else {
         self.currentIndex -= 1
       }
+      let playBtn = self.$('.btn-play-pause')
+      playBtn.classList.remove('pause')
+      playBtn.classList.add('playing')
+      playBtn.querySelector('use').setAttribute('xlink:href', '#icon-pause')
       self.loadSong()
       self.playSong()
     }
@@ -72,6 +63,10 @@ class Player {
     // 下一首
     this.$('.btn-next').onclick = function() {
       self.currentIndex = (self.currentIndex + 1) % self.songList.length
+      let playBtn = self.$('.btn-play-pause')
+      playBtn.classList.remove('pause')
+      playBtn.classList.add('playing')
+      playBtn.querySelector('use').setAttribute('xlink:href', '#icon-pause')
       self.loadSong()
       self.playSong()
     }
@@ -113,6 +108,7 @@ class Player {
     fetch(this.songList[this.currentIndex].lyric)
      .then(res => res.json())
      .then(data => {
+      console.log(data);
       console.log(data.lrc.lyric);
       this.setLyrics(data.lrc.lyric)
      })
@@ -171,6 +167,7 @@ class Player {
        this.$('.panel-lyrics .container').innerHTML = ''
        this.$('.panel-lyrics .container').appendChild(fragment)
 
+       console.log(this.lyricsArr);
   }
 
   setProgerssBar() {
