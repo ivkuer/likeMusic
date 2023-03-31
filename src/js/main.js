@@ -80,12 +80,21 @@ class Player {
 
     let swiper = new Swiper(this.$('.panels'))
     swiper.on('swipLeft', function() {
-      console.log(this);
+      self.$('.balls')
+      let span = self.$$('.balls span')
+      span.forEach(node => {
+        node.classList.remove('current')
+      })
+      span[1].classList.add('current')
       this.classList.remove('panel-1')
       this.classList.add('panel-2')
     })
     swiper.on('swipRight', function() {
-      console.log(this);
+      let span = self.$$('.balls span')
+      span.forEach(node => {
+        node.classList.remove('current')
+      })
+      span[0].classList.add('current')
       this.classList.remove('panel-2')
       this.classList.add('panel-1')
     })
