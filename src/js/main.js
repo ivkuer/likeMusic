@@ -80,7 +80,7 @@ class Player {
     this.audio.ontimeupdate = function() {
       console.log(parseInt(self.audio.currentTime*1000))
       self.locateLyric()
-      // self.setProgerssBar()
+      self.setProgerssBar()
     }
 
     let swiper = new Swiper(this.$('.panels'))
@@ -103,7 +103,7 @@ class Player {
     this.$('.header h1').innerText = songObj.title
     this.$('.header p').innerText = songObj.author + '-' + songObj.albumn
     this.audio.src = songObj.url
-    // this.audio.onloadedmetadata = () => this.$('.time-end').innerText = this.formateTime(this.audio.duration)
+    this.audio.onloadedmetadata = () => this.$('.time-end').innerText = this.formateTime(this.audio.duration)
     
     this.loadLyric()
   }
@@ -118,7 +118,7 @@ class Player {
      })
   }
 
-
+// 当播放时间大于歌词列表的下一段时间就触发歌词滚动，并且更新主界面歌词
   locateLyric() {
     if (this.lyricIndex === this.lyricsArr.length - 1) return
     let currentTime = this.audio.currentTime * 1000
@@ -127,6 +127,7 @@ class Player {
     if (currentTime > nextLineTime && this.lyricIndex < this.lyricsArr.length - 1) {
       this.lyricIndex++
       let node = this.$(`[data-time='${this.lyricsArr[this.lyricIndex][0]}']`)
+      // 歌词滚动
       if (node) this.setLyricToCenter(node)
       // 歌词挂到主界面
       this.$$('.panels .panel-effect .lyrics p')[0].innerText = this.lyricsArr[this.lyricIndex][1]
@@ -134,6 +135,7 @@ class Player {
     }
   }
 
+  // 歌词滚动，当前歌词（距离顶部位置 - 歌词列表区域的高度）大于0则滚动减去的距离
   setLyricToCenter(node) {
     let translateY = node.offsetTop - this.$('.panel-lyrics').offsetHeight / 2
     translateY = translateY > 0 ? translateY : 0
@@ -158,7 +160,6 @@ class Player {
           lyricsArr.push([milliseconds, str])
         })
       })
-
       lyricsArr.filter(line => line[1].trim() !== '')
        .sort((v1, v2) => v1[0] > v2[0] ? 1 : -1)
        .forEach(line => {
@@ -167,10 +168,24 @@ class Player {
         node.innerText = line[1]
         fragment.appendChild(node)
        })
-
        this.$('.panel-lyrics .container').innerHTML = ''
        this.$('.panel-lyrics .container').appendChild(fragment)
 
+  }
+
+  setProgerssBar() {
+    let percent = (this.audio.currentTime * 100 /this.audio.duration) + '%'
+    console.log(percent)
+    this.$('.bar .progress').style.width = percent
+    this.$('.time-start').innerText = this.formateTime(this.audio.currentTime)
+  }
+
+  formateTime(secondsTotal) {
+    let minutes = parseInt(secondsTotal/60)
+    minutes = minutes >= 10 ? '' + minutes : '0' + minutes
+    let seconds = parseInt(secondsTotal%60)
+    seconds = seconds >= 10 ? '' + seconds : '0' + seconds
+    return minutes + ':' + seconds
   }
 
   playSong() {
